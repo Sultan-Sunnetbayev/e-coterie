@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.flywaydb.core.internal.database.DatabaseExecutionStrategy;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,8 +41,10 @@ public class Faculty {
     @UpdateTimestamp
     private Date updated;
 
-    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<DeanFaculty> deanFaculties;
-    @OneToMany(mappedBy = "faculty", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<SpecialityStudent>specialityStudents;
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Student>students;
 }

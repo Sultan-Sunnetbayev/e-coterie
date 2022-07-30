@@ -141,3 +141,35 @@ CREATE TABLE `teachers_coteries`(
             REFERENCES `coteries`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+CREATE TABLE `students`(
+    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
+    `name` VARCHAR(25) NOT NULL ,
+    `surname` VARCHAR(30) NOT NULL ,
+    `patronymic_name` VARCHAR(35) ,
+    `image_path` VARCHAR(255) ,
+    `hostel` BOOLEAN NOT NULL DEFAULT FALSE ,
+    `gender` VARCHAR(5) NOT NULL ,
+    `faculty_id` INT ,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+
+    CONSTRAINT `students_faculty_id_fk`
+        FOREIGN KEY (`faculty_id`)
+            REFERENCES `faculties`(`id`)
+                ON UPDATE CASCADE ON DELETE SET NULL
+);
+
+CREATE TABLE `students_coteries`(
+    `student_id` INT NOT NULL ,
+    `coterie_id` INT NOT NULL ,
+
+    CONSTRAINT `students_coteries_student_id_fk`
+        FOREIGN KEY (`student_id`)
+            REFERENCES `students`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE ,
+    CONSTRAINT `student_coteries_coterie_id_fk`
+        FOREIGN KEY (`coterie_id`)
+            REFERENCES `coteries`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE
+);

@@ -42,4 +42,8 @@ public class Coterie {
     private Pulpit pulpit;
     @ManyToMany(mappedBy = "coteries", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private List<Teacher> teachers;
+    @ManyToMany(mappedBy = "coteries", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Student>students;
+
+
 }
