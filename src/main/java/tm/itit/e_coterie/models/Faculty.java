@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.flywaydb.core.internal.database.DatabaseExecutionStrategy;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -27,12 +25,12 @@ public class Faculty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "full_name")
-    @NotBlank(message = "full name faculty is mandatory")
-    @NotEmpty(message = "full name facuty is empty")
+    @NotBlank(message = "faculty full name is mandatory")
+    @NotEmpty(message = "faculty full name is empty")
     private String fullName;
     @Column(name = "short_name")
-    @NotBlank(message = "short name faculty is mandatory")
-    @NotEmpty(message = "short name faculty is empty")
+    @NotBlank(message = "faculty short name is mandatory")
+    @NotEmpty(message = "faculty short name is empty")
     private String shortName;
     @Column(name = "created")
     @CreationTimestamp
@@ -43,8 +41,6 @@ public class Faculty {
 
     @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<DeanFaculty> deanFaculties;
-    @OneToMany(mappedBy = "faculty", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<SpecialityStudent>specialityStudents;
     @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Student>students;
+    private List<StudentSpeciality> studentSpecialities;
 }

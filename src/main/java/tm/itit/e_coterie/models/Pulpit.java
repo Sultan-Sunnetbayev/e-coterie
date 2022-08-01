@@ -25,12 +25,12 @@ public class Pulpit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "full_name")
-    @NotBlank(message = "full name pulpit's is mandatory")
-    @NotEmpty(message = "full name pulpit's is empty")
+    @NotBlank(message = "pulpit full name is mandatory")
+    @NotEmpty(message = "pulpit full name is empty")
     private String fullName;
     @Column(name = "short_name")
-    @NotBlank(message = "short name pulpit's is mandatory")
-    @NotEmpty(message = "short name pulpit's is empty")
+    @NotBlank(message = "pulpit short name is mandatory")
+    @NotEmpty(message = "pulpit short name is empty")
     private String shortName;
     @Column(name = "created")
     @CreationTimestamp
@@ -40,8 +40,8 @@ public class Pulpit {
     private Date updated;
 
     @OneToMany(mappedBy = "pulpit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<PulpitGovernor> pulpitGovernors;
-    @OneToMany(mappedBy = "pulpit", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<GovernorPulpit>governorPulpits;
+    @OneToMany(mappedBy = "pulpit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Coterie>coteries;
 
 }

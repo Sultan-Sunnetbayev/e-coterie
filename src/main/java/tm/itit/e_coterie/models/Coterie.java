@@ -25,8 +25,8 @@ public class Coterie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
-    @NotBlank(message = "name coterie is mandatory")
-    @NotEmpty(message = "name coterie is empty")
+    @NotBlank(message = "coterie name is mandatory")
+    @NotEmpty(message = "coterie name is empty")
     private String name;
     @Column(name = "image_path")
     private String imagePath;
@@ -35,15 +35,12 @@ public class Coterie {
     private Date created;
     @Column(name = "updated")
     @UpdateTimestamp
-    private Date update;
+    private Date updated;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "pulpit_id", referencedColumnName = "id")
     private Pulpit pulpit;
-    @ManyToMany(mappedBy = "coteries", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    private List<Teacher> teachers;
     @ManyToMany(mappedBy = "coteries", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Student>students;
-
 
 }

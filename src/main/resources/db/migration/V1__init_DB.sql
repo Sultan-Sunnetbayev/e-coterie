@@ -5,109 +5,80 @@ CREATE TABLE `roles`(
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE `emails`(
-    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `name` VARCHAR(75) NOT NULL UNIQUE ,
-    `password` VARCHAR (150) NOT NULL ,
-    `phone_number` VARCHAR(20) UNIQUE ,
-    `status` BOOLEAN NOT NULL DEFAULT FALSE ,
-    `role_id` INT ,
-    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-
-    CONSTRAINT `emails_role_id_fk`
-        FOREIGN KEY (`role_id`)
-            REFERENCES `roles`(`id`)
-                ON UPDATE CASCADE ON DELETE SET NULL
-);
-
-CREATE TABLe `admins`(
+CREATE TABLE `users`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     `name` VARCHAR(25) NOT NULL ,
     `surname` VARCHAR(30) NOT NULL ,
     `patronymic_name` VARCHAR(35) ,
-    `image_path` VARCHAR(255) ,
-    `email_id` INT NOT NULL ,
+    `email` VARCHAR(75) NOT NULL UNIQUE ,
+    `password` VARCHAR(150) NOT NULL ,
+    `image_path` VARCHAR(200) ,
+    `status` BOOLEAN NOT NULL DEFAULT FALSE ,
+    `gender` VARCHAR(5) NOT NULL ,
+    `role_id` INT ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 
-    CONSTRAINT `admins_email_id_fk`
-        FOREIGN KEY (`email_id`)
-            REFERENCES `emails`(`id`)
-                ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT `users_role_id_fk`
+        FOREIGN KEY(`role_id`)
+            REFERENCES `roles`(`id`)
+                ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE `faculties`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `full_name` VARCHAR (300) NOT NULL UNIQUE ,
-    `short_name` VARCHAR(50) NOT NULL UNIQUE ,
+    `full_name` VARCHAR(100) NOT NULL UNIQUE ,
+    `short_name` VARCHAR(30) NOT NULL UNIQUE ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `dean_faculties`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `name` VARCHAR(25) NOT NULL ,
-    `surname` VARCHAR(30) NOT NULL ,
-    `patronymic_name` VARCHAR(35) ,
-    `image_path` VARCHAR(255) ,
-    `email_id` INT NOT NULL ,
-    `faculty_id` INT ,
+    `user_id` INT NOT NULL ,
+    `faculty_id` INT NOT NULL ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 
-    CONSTRAINT `dean_faculties_email_id_fk`
-        FOREIGN KEY(`email_id`)
-            REFERENCES `emails`(`id`)
+    CONSTRAINT `dean_faculties_user_id_fk`
+        FOREIGN KEY(`user_id`)
+            REFERENCES `users`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE ,
     CONSTRAINT `dean_faculties_faculty_id_fk`
         FOREIGN KEY(`faculty_id`)
             REFERENCES `faculties`(`id`)
-                ON UPDATE CASCADE ON DELETE SET NULL
+                ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE `pulpits`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `full_name` VARCHAR(255) NOT NULL UNIQUE ,
-    `short_name` VARCHAR(50) NOT NULL UNIQUE ,
+    `full_name` VARCHAR(150) NOT NULL UNIQUE ,
+    `short_name` VARCHAR(30) NOT NULL UNIQUE ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE `pulpit_governors`(
+CREATE TABLE `governor_pulpits`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `name` VARCHAR(25) NOT NULL ,
-    `surname` VARCHAR(30) NOT NULL ,
-    `patronymic_name` VARCHAR(35) ,
-    `image_path` VARCHAR (255) NOT NULL ,
-    `pulpit_id` INT ,
+    `user_id` INT NOT NULL ,
+    `pulpit_id` INT NOT NULL ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 
-    CONSTRAINT `pulpit_governors_pulpit_id_fk`
+    CONSTRAINT `governor_pulpits_user_id_fk`
+        FOREIGN KEY(`user_id`)
+            REFERENCES `users`(`id`)
+                ON UPDATE CASCADE  ON DELETE CASCADE ,
+    CONSTRAINT `governor_pulpits_pulpit_id_fk`
         FOREIGN KEY(`pulpit_id`)
             REFERENCES `pulpits`(`id`)
-                ON UPDATE CASCADE ON DELETE SET NULL
-);
-
-CREATE TABLE `speciality_students`(
-    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `full_name` VARCHAR(255) NOT NULL UNIQUE ,
-    `short_name` VARCHAR(255) NOT NULL UNIQUE ,
-    `faculty_id` INT ,
-    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-
-    CONSTRAINT `speciality_students_faculty_id_fk`
-        FOREIGN KEY(`faculty_id`)
-            REFERENCES `faculties`(`id`)
-                ON UPDATE CASCADE ON DELETE SET NULL
+                ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE `coteries`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `name` VARCHAR(255) NOT NULL UNIQUE ,
-    `image_path` VARCHAR(255) UNIQUE ,
+    `name` VARCHAR(100) NOT NULL UNIQUE ,
+    `image_path` VARCHAR(200) ,
     `pulpit_id` INT ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
@@ -118,58 +89,31 @@ CREATE TABLE `coteries`(
                 ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-CREATE TABLE `teachers`(
+CREATE TABLE `student_specialities`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `name` VARCHAR(25) NOT NULL ,
-    `surname` VARCHAR(30) NOT NULL ,
-    `patronymic_name` VARCHAR(35) ,
-    `image_path` VARCHAR(255) UNIQUE ,
-    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE `teachers_coteries`(
-    `teacher_id` INT NOT NULL ,
-    `coterie_id` INT NOT NULL ,
-
-    CONSTRAINT `teachers_coteries_teacher_id_fk`
-        FOREIGN KEY (`teacher_id`)
-            REFERENCES `teachers`(`id`)
-                ON UPDATE CASCADE ON DELETE CASCADE ,
-    CONSTRAINT `teachers_coteries_coterie_id_fk`
-        FOREIGN KEY (`coterie_id`)
-            REFERENCES `coteries`(`id`)
-                ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE `students`(
-    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `name` VARCHAR(25) NOT NULL ,
-    `surname` VARCHAR(30) NOT NULL ,
-    `patronymic_name` VARCHAR(35) ,
-    `image_path` VARCHAR(255) ,
-    `hostel` BOOLEAN NOT NULL DEFAULT FALSE ,
-    `gender` VARCHAR(5) NOT NULL ,
+    `full_name` VARCHAR(75) NOT NULL UNIQUE ,
+    `short_name` VARCHAR(15) NOT NULL UNIQUE ,
     `faculty_id` INT ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 
-    CONSTRAINT `students_faculty_id_fk`
-        FOREIGN KEY (`faculty_id`)
+    CONSTRAINT `student_specialites_faculty_id_fk`
+        FOREIGN KEY(`faculty_id`)
             REFERENCES `faculties`(`id`)
                 ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-CREATE TABLE `students_coteries`(
-    `student_id` INT NOT NULL ,
+CREATE TABLE `teachers_coteries`(
+    `user_id` INT NOT NULL ,
     `coterie_id` INT NOT NULL ,
 
-    CONSTRAINT `students_coteries_student_id_fk`
-        FOREIGN KEY (`student_id`)
-            REFERENCES `students`(`id`)
+    CONSTRAINT `teachers_coteries_user_id_fk`
+        FOREIGN KEY(`user_id`)
+            REFERENCES `users`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE ,
-    CONSTRAINT `student_coteries_coterie_id_fk`
-        FOREIGN KEY (`coterie_id`)
+    CONSTRAINT `teachers_coteries_coterie_id_fk`
+        FOREIGN KEY(`coterie_id`)
             REFERENCES `coteries`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE
 );
+

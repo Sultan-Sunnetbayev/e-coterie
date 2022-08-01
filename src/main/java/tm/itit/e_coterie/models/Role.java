@@ -25,8 +25,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
-    @NotBlank(message = "name role's is mandatory")
-    @NotEmpty(message = "name role's is empty")
+    @NotBlank(message = "role name is mandatory")
+    @NotEmpty(message = "role name is empty")
     private String name;
     @Column(name = "created")
     @CreationTimestamp
@@ -35,6 +35,6 @@ public class Role {
     @UpdateTimestamp
     private Date updated;
 
-    @OneToMany(mappedBy = "role",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
-    private List<Email> emails;
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<User> users;
 }

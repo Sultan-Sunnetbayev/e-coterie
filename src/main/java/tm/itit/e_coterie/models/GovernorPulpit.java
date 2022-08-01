@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -17,8 +15,8 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "dean_faculties")
-public class DeanFaculty{
+@Table(name = "governor_pulpits")
+public class GovernorPulpit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +25,8 @@ public class DeanFaculty{
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    private Faculty faculty;
+    @JoinColumn(name = "pulpit_id", referencedColumnName = "id")
+    private Pulpit pulpit;
     @Column(name = "created")
     @CreationTimestamp
     private Date created;
