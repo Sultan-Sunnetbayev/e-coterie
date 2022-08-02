@@ -28,6 +28,8 @@ public class Student {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "student_speciality_id", referencedColumnName = "id")
     private StudentSpeciality studentSpeciality;
+    @Column(name = "hostel")
+    private Boolean hostel;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "students_coteries",
