@@ -13,8 +13,20 @@ spring:
     url: jdbc:mysql://localhost:3306/e_coteriedb
   flyway:
     baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-request-size: 15MB
+      max-file-size: 15MB
 server:
   port: 8090
   error:
     include-message: always
     include-binding-errors: always
+
+user:
+  image:
+    path: /home/sultan/data/imageUsers
+
+default:
+  image:
+    name: image.png
