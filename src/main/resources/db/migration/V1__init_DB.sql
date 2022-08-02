@@ -103,17 +103,50 @@ CREATE TABLE `student_specialities`(
                 ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-CREATE TABLE `teachers_coteries`(
+CREATE TABLE `teachers`(
+    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     `user_id` INT NOT NULL ,
     `coterie_id` INT NOT NULL ,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 
-    CONSTRAINT `teachers_coteries_user_id_fk`
+    CONSTRAINT `teachers_user_id_fk`
         FOREIGN KEY(`user_id`)
             REFERENCES `users`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE ,
-    CONSTRAINT `teachers_coteries_coterie_id_fk`
+    CONSTRAINT `teachers_coterie_id_fk`
         FOREIGN KEY(`coterie_id`)
             REFERENCES `coteries`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE `students`(
+    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
+    `user_id` INT NOT NULL ,
+    `student_speciality_id` INT NOT NULL ,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+
+    CONSTRAINT `students_user_id_fk`
+        FOREIGN KEY(`user_id`)
+            REFERENCES `users`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE ,
+    CONSTRAINT `students_student_speciality_id_fk`
+        FOREIGN KEY(`student_speciality_id`)
+            REFERENCES `student_specialities`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE `students_coteries`(
+    `student_id` INT NOT NULL ,
+    `coterie_id` INT NOT NULL ,
+
+    CONSTRAINT `students_coteries_student_id_fk`
+        FOREIGN KEY(`student_id`)
+            REFERENCES `students`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE ,
+    CONSTRAINT `students_coteries_coterie_id_fk`
+        FOREIGN KEY(`coterie_id`)
+            REFERENCES `coteries`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE
+);
