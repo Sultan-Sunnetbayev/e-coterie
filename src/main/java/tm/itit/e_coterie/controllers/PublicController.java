@@ -27,7 +27,7 @@ public class PublicController {
     }
 
     @GetMapping(path = "/home/sultan/data/imageUsers/{fileName}", produces = "application/json")
-    public ResponseEntity<byte[]> getImage(@PathVariable("fileName")String fileName) throws IOException {
+    public ResponseEntity getImage(@PathVariable("fileName")String fileName) throws IOException {
 
         File image=new File(imagePath+"/"+fileName);
 
@@ -42,8 +42,7 @@ public class PublicController {
             response.put("status",false);
             response.put("message","don't load image");
 
-//            return ResponseEntity.badRequest().body(response);
-            return null;
+            return ResponseEntity.badRequest().body(response);
         }
 
     }

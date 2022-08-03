@@ -34,15 +34,45 @@ public class AdminController {
 
             return ResponseEntity.ok(response);
         }
-        userService.addRector(user, image);
+        final String role="ROLE_RECTOR";
 
+        userService.addUser(user, image, role);
         if(userService.isUserExists(user)){
 
             response.put("message","rector successful added");
             response.put("status",true);
         }else{
 
-            response.put("message","rector don't added");
+            response.put("message","error rector don't added");
+            response.put("status",false);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(path = "/add/prorector", produces = "application/json")
+    public ResponseEntity addProrector(final @ModelAttribute User prorector,
+                          final @RequestParam(value = "image", required = false)MultipartFile image){
+
+        Map<String, Object>response=new HashMap<>();
+
+        if(userService.isUserExists(prorector)){
+
+            response.put("message","this user already exists");
+            response.put("status",false);
+
+            return ResponseEntity.ok(response);
+        }
+        String role="ROLE_PRORECTOR";
+
+        userService.addUser(prorector, image, role);
+        if(userService.isUserExists(prorector)){
+
+            response.put("message","prorector successful added");
+            response.put("status", true);
+        }else{
+
+            response.put("message","error prorector don't added");
             response.put("status",false);
         }
 

@@ -8,7 +8,8 @@ import javax.transaction.Transactional;
 public interface UserService {
 
     @Transactional
-    void addRector(User user, MultipartFile image);
+    void addUser(User user, MultipartFile image, String roleName);
 
     boolean isUserExists(User user);
+
 }

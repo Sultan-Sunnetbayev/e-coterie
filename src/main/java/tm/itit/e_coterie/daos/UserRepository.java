@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tm.itit.e_coterie.models.User;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
@@ -22,5 +24,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findUserByNameAndSurnameAndEmail(@Param("name")String name,
                                           @Param("surname")String surname,
                                           @Param("email")String email);
+
+    @Query("SELECT user FROM User user WHERE user.role.name = :name")
+    List<User>findUsersByRole_Name(@Param("name")String name);
 
 }

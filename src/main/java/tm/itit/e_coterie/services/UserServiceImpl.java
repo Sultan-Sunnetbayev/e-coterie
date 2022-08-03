@@ -13,6 +13,8 @@ import tm.itit.e_coterie.models.User;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void addRector(final User user, final MultipartFile image){
+    public void addUser(final User user, final MultipartFile image, final String roleName){
 
         if(isUserEmailExists(user.getEmail())){
 
@@ -50,11 +52,28 @@ public class UserServiceImpl implements UserService{
                 return;
             }
         }
-        Role role=roleRepository.findRoleByName("ROLE_RECTOR");
+        Role role=roleRepository.findRoleByName(roleName);
 
         if(role==null){
 
             return;
+        }
+        if(Objects.equals(role.getName(), "ROLE_RECTOR")) {
+
+            List<User> rectors = userRepository.findUsersByRole_Name(role.getName());
+
+            if (rectors != null && !rectors.isEmpty()) {
+
+                return;
+            }
+        }else if(Objects.equals(role.getName(), "ROLE_PRORECTOR")){
+
+            List<User>prorectors=userRepository.findUsersByRole_Name("ROLE_PRORECTOR");
+
+            if(prorectors!=null && prorectors.size()>1){
+
+                return;
+            }
         }
         User savedUser=User.builder()
                 .name(user.getName())
@@ -131,4 +150,5 @@ public class UserServiceImpl implements UserService{
             return false;
         }
     }
+
 }
