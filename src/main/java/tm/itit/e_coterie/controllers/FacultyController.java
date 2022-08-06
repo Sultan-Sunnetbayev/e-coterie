@@ -2,10 +2,9 @@ package tm.itit.e_coterie.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tm.itit.e_coterie.dtos.FacultyDTO;
+import tm.itit.e_coterie.models.Faculty;
 import tm.itit.e_coterie.services.FacultyService;
 
 import java.util.ArrayList;
@@ -39,4 +38,32 @@ public class FacultyController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping(path = "/edit/faculty/by/id", produces = "application/json")
+    public ResponseEntity editFacultyById(final @ModelAttribute Faculty faculty){
+
+        Map<String,Object>response=new HashMap<>();
+
+        if(!facultyService.isFacultyExistsById(faculty.getId())){
+
+            response.put("status",false);
+            response.put("message","error faculty don't found with this id");
+
+            return ResponseEntity.ok(response);
+        }
+        facultyService.editFacultyById(faculty);
+
+        if(facultyService.isFacultyExists(faculty)){
+
+            response.put("status",true);
+            response.put("message","faculty successful edited");
+        }else{
+
+            response.put("status",false);
+            response.put("message","error faculty don't edited");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
 }

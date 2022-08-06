@@ -5,10 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tm.itit.e_coterie.models.Faculty;
+import tm.itit.e_coterie.models.Pulpit;
 import tm.itit.e_coterie.models.User;
-import tm.itit.e_coterie.services.DeanFacultyService;
-import tm.itit.e_coterie.services.FacultyService;
-import tm.itit.e_coterie.services.UserService;
+import tm.itit.e_coterie.services.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,13 +19,18 @@ public class AdminController {
     private final UserService userService;
     private final FacultyService facultyService;
     private final DeanFacultyService deanFacultyService;
+    private final PulpitService pulpitService;
+    private final GovernorPulpitService governorPulpitService;
 
     @Autowired
     public AdminController(UserService userService, FacultyService facultyService,
-                           DeanFacultyService deanFacultyService) {
+                           DeanFacultyService deanFacultyService, PulpitService pulpitService,
+                           GovernorPulpitService governorPulpitService) {
         this.userService = userService;
         this.facultyService = facultyService;
         this.deanFacultyService = deanFacultyService;
+        this.pulpitService = pulpitService;
+        this.governorPulpitService = governorPulpitService;
     }
 
     @PostMapping(path = "/add/rector", produces = "application/json")
@@ -108,33 +112,6 @@ public class AdminController {
 
             response.put("status",false);
             response.put("message","error faculty don't added");
-        }
-
-        return ResponseEntity.ok(response);
-    }
-
-    @PutMapping(path = "/edit/faculty/by/id", produces = "application/json")
-    public ResponseEntity editFacultyById(final @ModelAttribute Faculty faculty){
-
-        Map<String,Object>response=new HashMap<>();
-
-        if(!facultyService.isFacultyExistsById(faculty.getId())){
-
-            response.put("status",false);
-            response.put("message","error faculty don't found with this id");
-
-            return ResponseEntity.ok(response);
-        }
-        facultyService.editFacultyById(faculty);
-
-        if(facultyService.isFacultyExists(faculty)){
-
-            response.put("status",true);
-            response.put("message","faculty successful edited");
-        }else{
-
-            response.put("status",false);
-            response.put("message","error faculty don't edited");
         }
 
         return ResponseEntity.ok(response);
@@ -230,6 +207,32 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping(path = "/add/pulpit",produces = "application/json")
+    public ResponseEntity addPulpit(final @ModelAttribute Pulpit pulpit){
+
+        Map<String,Object>response=new HashMap<>();
+
+        if(pulpitService.isPulpitExists(pulpit)){
+
+            response.put("status",false);
+            response.put("message","error this pulpit already exists");
+
+            return ResponseEntity.ok(response);
+        }
+        pulpitService.addPulpit(pulpit);
+        if(pulpitService.isPulpitExists(pulpit)){
+
+            response.put("status",true);
+            response.put("message","accept pulpit successful added");
+        }else{
+
+            response.put("status",false);
+            response.put("message","error pulpit don't added");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping(path = "/add/governor/pulpit",produces = "application/json")
     public ResponseEntity addGovernorPulpit(final @ModelAttribute User governorPulpit,
                                             final @RequestParam(value = "image",required = false)MultipartFile image,
@@ -244,13 +247,31 @@ public class AdminController {
 
             return ResponseEntity.ok(response);
         }
+        if(!pulpitService.isPulpitExistsById(pulpitId)){
+
+            response.put("status",false);
+            response.put("message","error pulpit not found with this id");
+
+            return ResponseEntity.ok(response);
+        }
         final String role="ROLE_GOVERNOR_PULPIT";
 
         userService.addUser(governorPulpit, image,  role);
         if(userService.isUserExists(governorPulpit)){
 
-            response.put("status",true);
-            response.put("message","pulpit governor successful added");
+            final User user=userService.getUserByEmail(governorPulpit.getEmail());
+            final Pulpit pulpit=pulpitService.getPulpitById(pulpitId);
+
+            governorPulpitService.addGovernorPulpit(user, pulpit);
+            if(governorPulpitService.isGovernorPulpitExists(user.getId(), pulpitId)){
+
+                response.put("status",true);
+                response.put("message","accept governor pulpit successful added");
+            }else{
+
+                response.put("status",false);
+                response.put("message","error governor pulpit don't added");
+            }
         }else{
 
             response.put("status",false);
