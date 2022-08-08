@@ -39,8 +39,8 @@ public class Faculty {
     @UpdateTimestamp
     private Date updated;
 
-    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<DeanFaculty> deanFaculties;
+    @OneToOne(mappedBy = "faculty", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private DeanFaculty deanFaculties;
     @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StudentSpeciality> studentSpecialities;
 }

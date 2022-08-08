@@ -281,4 +281,57 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping(path = "/remove/pulpit/by/id",produces = "application/json")
+    public ResponseEntity removePulpitById(final @RequestParam("pulpitId")Integer pulpitId){
+
+        Map<String,Object>response = new HashMap<>();
+
+        if(!pulpitService.isPulpitExistsById(pulpitId)){
+
+            response.put("message","error pulpit not found with this id");
+            response.put("status",false);
+
+            return ResponseEntity.ok(response);
+        }
+        pulpitService.removePulpitById(pulpitId);
+
+        if(!pulpitService.isPulpitExistsById(pulpitId)){
+
+            response.put("message","accept pulpit successful removed");
+            response.put("status",true);
+        }else{
+
+            response.put("message","error pulpit don't removed");
+            response.put("status",true);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(path = "/remove/user/by/id", produces = "application/json")
+    public ResponseEntity removeUserById(final @RequestParam("userId")Integer userId){
+
+        Map<String,Object>response=new HashMap<>();
+
+        if(!userService.isUserExistsById(userId)){
+
+            response.put("message","error user not found with this id");
+            response.put("status",true);
+
+            return ResponseEntity.ok(response);
+        }
+        userService.removeUserById(userId);
+        if(!userService.isUserExistsById(userId)){
+
+            response.put("message","accept user successful removed");
+            response.put("status",true);
+        }else{
+
+            response.put("message","error user don't removed");
+            response.put("status",false);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
 }

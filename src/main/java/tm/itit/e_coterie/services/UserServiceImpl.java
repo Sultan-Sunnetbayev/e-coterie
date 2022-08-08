@@ -12,6 +12,7 @@ import tm.itit.e_coterie.models.Role;
 import tm.itit.e_coterie.models.User;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -157,6 +158,41 @@ public class UserServiceImpl implements UserService{
         User user=userRepository.findUserByEmail(email);
 
         return user;
+    }
+
+    @Override
+    public boolean isUserExistsById(final Integer userId){
+
+        if(userRepository.findUserById(userId)!=null){
+
+            return true;
+        }else{
+
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void removeUserById(final Integer userId){
+
+        User user=userRepository.findUserById(userId);
+
+        if(user!=null && !Objects.equals(user.getRole().getName(),"ROLE_ADMIN")){
+
+            if(user.getImagePath()!=null && !user.getImagePath().isEmpty()) {
+
+                File file = new File(user.getImagePath());
+
+                if(file.exists()){
+
+                    file.delete();
+                }
+            }
+            userRepository.deleteById(userId);
+        }
+
+        return;
     }
 
 }

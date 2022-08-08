@@ -13,4 +13,9 @@ public interface UserService {
     boolean isUserExists(User user);
 
     User getUserByEmail(String email);
+
+    boolean isUserExistsById(Integer userId);
+
+    @Transactional
+    void removeUserById(Integer userId);
 }

@@ -100,22 +100,14 @@ public class PulpitServiceImpl implements PulpitService{
 
     @Override
     @Transactional
-    public boolean removePulpitById(final Integer pulpitId){
+    public void removePulpitById(final Integer pulpitId){
 
         if(pulpitRepository.findPulpitById(pulpitId)!=null){
 
             pulpitRepository.deleteById(pulpitId);
-        }else{
-
-            return false;
         }
-        if(pulpitRepository.findPulpitById(pulpitId)==null){
 
-            return true;
-        }else{
-
-            return false;
-        }
+        return;
     }
 
     @Override

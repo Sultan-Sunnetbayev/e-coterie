@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface PulpitService {
+
     @Transactional
     void addPulpit(Pulpit pulpit);
 
@@ -14,7 +15,7 @@ public interface PulpitService {
     void editPulpitById(Pulpit pulpit);
 
     @Transactional
-    boolean removePulpitById(Integer pulpitId);
+    void removePulpitById(Integer pulpitId);
 
     List<PulpitDTO> getAllPulpitDTO();
 
