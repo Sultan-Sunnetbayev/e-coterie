@@ -36,7 +36,7 @@ public class FileUploadUtil {
         }
     }
 
-    public static void saveDefaultImageUser(final String imagePath, final String defaultImageName,
+    public static void saveDefaultImage(final String imagePath, final String defaultImageName,
                                             final String uuid) throws IOException {
 
         Path uploadDir=Paths.get(imagePath);

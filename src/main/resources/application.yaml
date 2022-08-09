@@ -30,3 +30,7 @@ user:
 default:
   image:
     name: image.png
+
+coterie:
+  image:
+    path: /home/sultan/data/imageCoteries

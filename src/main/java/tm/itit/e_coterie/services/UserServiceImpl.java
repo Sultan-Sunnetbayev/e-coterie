@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService{
             try {
 
                 String uuid=UUID.randomUUID().toString();
-                FileUploadUtil.saveDefaultImageUser(imagePath,defaultImageNameUser,uuid);
+                FileUploadUtil.saveDefaultImage(imagePath,defaultImageNameUser,uuid);
                 savedUser.setImagePath(imagePath+"/"+uuid+"_"+defaultImageNameUser);
                 userRepository.save(savedUser);
 
