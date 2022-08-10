@@ -27,7 +27,7 @@ public class GovernorPulpitController {
 
     @PostMapping(path = "/add/coterie", produces = "application/json")
     public ResponseEntity addCoterie(final @ModelAttribute Coterie coterie,
-                                     final @RequestParam(value = "iamge",required = false) MultipartFile image,
+                                     final @RequestParam(value = "image",required = false) MultipartFile image,
                                      final @RequestParam("pulpitId")Integer pulpitId){
 
         Map<String,Object> response=new HashMap<>();

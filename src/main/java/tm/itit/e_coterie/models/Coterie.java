@@ -37,7 +37,7 @@ public class Coterie {
     @UpdateTimestamp
     private Date updated;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "pulpit_id", referencedColumnName = "id")
     private Pulpit pulpit;
     @ManyToMany(mappedBy = "coteries", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

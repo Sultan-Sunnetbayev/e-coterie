@@ -40,3 +40,4 @@ public class CoterieController {
         return ResponseEntity.ok(response);
     }
 
+}
