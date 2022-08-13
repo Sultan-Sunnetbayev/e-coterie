@@ -39,7 +39,7 @@ public class StudentSpeciality {
     @UpdateTimestamp
     private Date updated;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     private Faculty faculty;
     @OneToMany(mappedBy = "studentSpeciality", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

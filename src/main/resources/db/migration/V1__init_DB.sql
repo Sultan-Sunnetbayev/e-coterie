@@ -50,43 +50,43 @@ CREATE TABLE `dean_faculties`(
                 ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE `pulpits`(
-    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `full_name` VARCHAR(150) NOT NULL UNIQUE ,
-    `short_name` VARCHAR(30) NOT NULL UNIQUE ,
-    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+# CREATE TABLE `pulpits`(
+#     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
+#     `full_name` VARCHAR(150) NOT NULL UNIQUE ,
+#     `short_name` VARCHAR(30) NOT NULL UNIQUE ,
+#     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+#     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+# );
 
-CREATE TABLE `governor_pulpits`(
-    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-    `user_id` INT NOT NULL ,
-    `pulpit_id` INT NOT NULL ,
-    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-
-    CONSTRAINT `governor_pulpits_user_id_fk`
-        FOREIGN KEY(`user_id`)
-            REFERENCES `users`(`id`)
-                ON UPDATE CASCADE  ON DELETE CASCADE ,
-    CONSTRAINT `governor_pulpits_pulpit_id_fk`
-        FOREIGN KEY(`pulpit_id`)
-            REFERENCES `pulpits`(`id`)
-                ON UPDATE CASCADE ON DELETE CASCADE
-);
+# CREATE TABLE `governor_pulpits`(
+#     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
+#     `user_id` INT NOT NULL ,
+#     `pulpit_id` INT NOT NULL ,
+#     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+#     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+#
+#     CONSTRAINT `governor_pulpits_user_id_fk`
+#         FOREIGN KEY(`user_id`)
+#             REFERENCES `users`(`id`)
+#                 ON UPDATE CASCADE  ON DELETE CASCADE ,
+#     CONSTRAINT `governor_pulpits_pulpit_id_fk`
+#         FOREIGN KEY(`pulpit_id`)
+#             REFERENCES `pulpits`(`id`)
+#                 ON UPDATE CASCADE ON DELETE CASCADE
+# );
 
 CREATE TABLE `coteries`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     `name` VARCHAR(100) NOT NULL UNIQUE ,
     `image_path` VARCHAR(200) ,
-    `pulpit_id` INT ,
+#     `pulpit_id` INT ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 
-    CONSTRAINT `coteries_pulpit_id_fk`
-        FOREIGN KEY(`pulpit_id`)
-            REFERENCES `pulpits`(`id`)
-                ON UPDATE CASCADE ON DELETE SET NULL
+#     CONSTRAINT `coteries_pulpit_id_fk`
+#         FOREIGN KEY(`pulpit_id`)
+#             REFERENCES `pulpits`(`id`)
+#                 ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE `student_specialities`(
@@ -124,7 +124,7 @@ CREATE TABLE `students`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     `user_id` INT NOT NULL ,
     `student_speciality_id` INT NOT NULL ,
-    `hostel` BOOLEAN NOT NULL DEFAULT FALSE ,
+    `hostel` BOOLEAN DEFAULT FALSE ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 

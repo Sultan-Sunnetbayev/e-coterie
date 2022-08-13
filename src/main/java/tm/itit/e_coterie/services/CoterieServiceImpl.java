@@ -8,7 +8,6 @@ import tm.itit.e_coterie.daos.CoterieRepository;
 import tm.itit.e_coterie.dtos.CoterieDTO;
 import tm.itit.e_coterie.helper.FileUploadUtil;
 import tm.itit.e_coterie.models.Coterie;
-import tm.itit.e_coterie.models.Pulpit;
 
 import javax.transaction.Transactional;
 import java.io.File;
@@ -34,11 +33,11 @@ public class CoterieServiceImpl implements CoterieService{
 
     @Override
     @Transactional
-    public void addCoterie(final Coterie coterie, final Pulpit pulpit, final MultipartFile image){
+    public void addCoterie(final Coterie coterie, final MultipartFile image){
 
         Coterie savedCoterie=Coterie.builder()
                 .name(coterie.getName())
-                .pulpit(pulpit)
+//                .pulpit(pulpit)
                 .build();
         if(image!=null && !image.isEmpty()){
 
@@ -136,8 +135,19 @@ public class CoterieServiceImpl implements CoterieService{
     @Transactional
     public void removeCoterieById(final Integer coterieId){
 
-        if(coterieRepository.findCoterieById(coterieId)!=null){
+        Coterie coterie=coterieRepository.findCoterieById(coterieId);
 
+        if(coterie!=null){
+
+            if(coterie.getImagePath()!=null && !coterie.getImagePath().isEmpty()){
+
+                File image=new File(coterie.getImagePath());
+
+                if(image.exists()){
+
+                    image.delete();
+                }
+            }
             coterieRepository.deleteById(coterieId);
         }
 
@@ -176,4 +186,12 @@ public class CoterieServiceImpl implements CoterieService{
         }
     }
 
+    @Override
+    public Coterie getCoterieById(final Integer coterieId){
+
+        Coterie coterie=coterieRepository.findCoterieById(coterieId);
+
+        return coterie;
+    }
+    
 }

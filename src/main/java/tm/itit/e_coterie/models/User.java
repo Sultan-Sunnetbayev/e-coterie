@@ -63,7 +63,7 @@ public class User {
     private Role role;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<DeanFaculty> deanFaculties;
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private GovernorPulpit governorPulpit;
+//    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private GovernorPulpit governorPulpit;
 
 }

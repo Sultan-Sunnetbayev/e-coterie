@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
     @Value("${user.image.path}")
     private String imagePath;
     @Value("${default.image.name}")
-    private String defaultImageNameUser;
+    private String defaultNameImageUser;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
                 return;
             }
         }
-        Role role=roleRepository.findRoleByName(roleName);
+        final Role role=roleRepository.findRoleByName(roleName);
 
         if(role==null){
 
@@ -105,14 +105,15 @@ public class UserServiceImpl implements UserService{
 
             try {
 
-                String uuid=UUID.randomUUID().toString();
-                FileUploadUtil.saveDefaultImage(imagePath,defaultImageNameUser,uuid);
-                savedUser.setImagePath(imagePath+"/"+uuid+"_"+defaultImageNameUser);
+                final String uuid=UUID.randomUUID().toString();
+                FileUploadUtil.saveDefaultImage(imagePath,defaultNameImageUser,uuid);
+                savedUser.setImagePath(imagePath+"/"+uuid+"_"+defaultNameImageUser);
                 userRepository.save(savedUser);
 
             } catch (IOException exception) {
 
                 exception.printStackTrace();
+
                 return;
             }
         }
