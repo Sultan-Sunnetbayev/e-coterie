@@ -61,9 +61,11 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<DeanFaculty> deanFaculties;
-//    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private GovernorPulpit governorPulpit;
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private DeanFaculty deanFaculty;
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Teacher teacher;
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
+    private Student student;
 
 }

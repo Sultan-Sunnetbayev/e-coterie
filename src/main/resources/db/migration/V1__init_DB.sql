@@ -50,43 +50,12 @@ CREATE TABLE `dean_faculties`(
                 ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-# CREATE TABLE `pulpits`(
-#     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-#     `full_name` VARCHAR(150) NOT NULL UNIQUE ,
-#     `short_name` VARCHAR(30) NOT NULL UNIQUE ,
-#     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-#     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-# );
-
-# CREATE TABLE `governor_pulpits`(
-#     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-#     `user_id` INT NOT NULL ,
-#     `pulpit_id` INT NOT NULL ,
-#     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-#     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-#
-#     CONSTRAINT `governor_pulpits_user_id_fk`
-#         FOREIGN KEY(`user_id`)
-#             REFERENCES `users`(`id`)
-#                 ON UPDATE CASCADE  ON DELETE CASCADE ,
-#     CONSTRAINT `governor_pulpits_pulpit_id_fk`
-#         FOREIGN KEY(`pulpit_id`)
-#             REFERENCES `pulpits`(`id`)
-#                 ON UPDATE CASCADE ON DELETE CASCADE
-# );
-
 CREATE TABLE `coteries`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     `name` VARCHAR(100) NOT NULL UNIQUE ,
     `image_path` VARCHAR(200) ,
-#     `pulpit_id` INT ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-
-#     CONSTRAINT `coteries_pulpit_id_fk`
-#         FOREIGN KEY(`pulpit_id`)
-#             REFERENCES `pulpits`(`id`)
-#                 ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE `student_specialities`(
@@ -113,8 +82,18 @@ CREATE TABLE `teachers`(
     CONSTRAINT `teachers_user_id_fk`
         FOREIGN KEY(`user_id`)
             REFERENCES `users`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE `teachers_coteries`(
+    `teacher_id` INT NOT NULL ,
+    `coterie_id` INT NOT NULL ,
+
+    CONSTRAINT `teachers_coteries_teacher_id_fk`
+        FOREIGN KEY(`teacher_id`)
+            REFERENCES `teachers`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE ,
-    CONSTRAINT `teachers_coterie_id_fk`
+    CONSTRAINT `teachers_coteries_coterie_id_fk`
         FOREIGN KEY(`coterie_id`)
             REFERENCES `coteries`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE

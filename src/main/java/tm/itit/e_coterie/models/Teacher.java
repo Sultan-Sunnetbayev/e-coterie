@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,12 +22,16 @@ public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "coterie_id")
-    private Coterie coterie;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "teachers_coteries",
+            joinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "coterie_id", referencedColumnName = "id")
+    )
+    private List<Coterie> coteries;
     @Column(name = "created")
     @CreationTimestamp
     private Date created;
