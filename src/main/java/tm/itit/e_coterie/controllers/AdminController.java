@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import tm.itit.e_coterie.models.DeanFaculty;
-import tm.itit.e_coterie.models.Faculty;
-import tm.itit.e_coterie.models.User;
+import tm.itit.e_coterie.dtos.StudentSpecialityDTO;
+import tm.itit.e_coterie.models.*;
 import tm.itit.e_coterie.services.*;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,19 +19,18 @@ public class AdminController {
     private final UserService userService;
     private final FacultyService facultyService;
     private final DeanFacultyService deanFacultyService;
-//    private final PulpitService pulpitService;
-//    private final GovernorPulpitService governorPulpitService;
+    private final StudentService studentService;
+    private final StudentSpecialityService studentSpecialityService;
 
     @Autowired
     public AdminController(UserService userService, FacultyService facultyService,
-//                           PulpitService pulpitService, GovernorPulpitService governorPulpitService,
-                           DeanFacultyService deanFacultyService
-                           ) {
+                           DeanFacultyService deanFacultyService, StudentService studentService,
+                           StudentSpecialityService studentSpecialityService) {
         this.userService = userService;
         this.facultyService = facultyService;
         this.deanFacultyService = deanFacultyService;
-//        this.pulpitService = pulpitService;
-//        this.governorPulpitService = governorPulpitService;
+        this.studentService = studentService;
+        this.studentSpecialityService = studentSpecialityService;
     }
 
     @PostMapping(path = "/add/rector", produces = "application/json")
@@ -78,7 +75,7 @@ public class AdminController {
 
             return ResponseEntity.ok(response);
         }
-        String role="ROLE_PRORECTOR";
+        final String role="ROLE_PRORECTOR";
 
         userService.addUser(prorector, image, role);
         if(userService.isUserExists(prorector)){
@@ -127,19 +124,21 @@ public class AdminController {
 
         if(facultyService.isFacultyExistsById(facultyId)){
 
-            List<DeanFaculty>deanFaculties=facultyService.getFacultyById(facultyId).getDeanFaculties();
+            List<DeanFaculty>deanFaculties= deanFacultyService.getDeanFacultiesByFacultyId(facultyId);
 
             for(DeanFaculty deanFaculty:deanFaculties){
 
-                if(deanFaculty.getUser().getImagePath()!=null && !deanFaculty.getUser().getImagePath().isEmpty()){
+                userService.removeUserById(deanFaculty.getUser().getId());
+            }
+            List<StudentSpecialityDTO>studentSpecialityDTOS=studentSpecialityService.getStudentSpecialityDTOByFacultyId(facultyId);
 
-                    File image=new File(deanFaculty.getUser().getImagePath());
+            for(StudentSpecialityDTO studentSpecialityDTO : studentSpecialityDTOS){
 
-                    if(image.exists()){
+                List<Student>students=studentService.getStudentsByStudentSpecialityId(studentSpecialityDTO.getId());
 
-                        image.delete();
-                    }
-                }
+                students.forEach(student -> {
+                    userService.removeUserById(student.getUser().getId());
+                });
             }
             facultyService.removeFacultyById(facultyId);
         }else{

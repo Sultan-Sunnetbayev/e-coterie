@@ -131,4 +131,13 @@ public class StudentSpecialityServiceImpl implements StudentSpecialityService {
         return;
     }
 
+    @Override
+    public List<StudentSpecialityDTO>getStudentSpecialityDTOByFacultyId(final int facultyId){
+
+        return studentSpecialityRepository.findStudentSpecialitiesByFaculty_Id(facultyId).stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+
+    }
+
 }

@@ -3,11 +3,13 @@ package tm.itit.e_coterie.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tm.itit.e_coterie.daos.DeanFacultyRepository;
+import tm.itit.e_coterie.dtos.UserDTO;
 import tm.itit.e_coterie.models.DeanFaculty;
 import tm.itit.e_coterie.models.Faculty;
 import tm.itit.e_coterie.models.User;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class DeanFacultyServiceImpl implements DeanFacultyService{
@@ -50,6 +52,14 @@ public class DeanFacultyServiceImpl implements DeanFacultyService{
 
             return false;
         }
+    }
+
+    @Override
+    public List<DeanFaculty>getDeanFacultiesByFacultyId(final int facultyId){
+
+        List<DeanFaculty>deanFaculties=deanFacultyRepository.findDeanFacultiesByFaculty_Id(facultyId);
+
+        return deanFaculties;
     }
 
 }

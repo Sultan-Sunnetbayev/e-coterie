@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tm.itit.e_coterie.models.StudentSpeciality;
 
+import java.util.List;
+
 @Repository
 public interface StudentSpecialityRepository extends JpaRepository<StudentSpeciality, Integer> {
 
@@ -25,5 +27,9 @@ public interface StudentSpecialityRepository extends JpaRepository<StudentSpecia
     @Query("SELECT studentSpeciality FROM StudentSpeciality studentSpeciality WHERE " +
             "studentSpeciality.id = :id")
     StudentSpeciality findStudentSpecialityById(@Param("id")Integer id);
+
+    @Query("SELECT studentSpeciality FROM StudentSpeciality studentSpeciality WHERE studentSpeciality.faculty.id " +
+            "= :facultyId")
+    List<StudentSpeciality> findStudentSpecialitiesByFaculty_Id(@Param("facultyId")int facultyId);
 
 }

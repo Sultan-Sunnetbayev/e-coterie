@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tm.itit.e_coterie.models.DeanFaculty;
 
+import java.util.List;
+
 @Repository
 public interface DeanFacultyRepository extends JpaRepository<DeanFaculty, Integer> {
 
@@ -21,5 +23,8 @@ public interface DeanFacultyRepository extends JpaRepository<DeanFaculty, Intege
             " AND deanFaculty.faculty.id = :facultyId")
     DeanFaculty findDeanFacultyByUser_IdAndFaculty_Id(@Param("userId")Integer userId,
                                                       @Param("facultyId")Integer facultyId);
+
+    @Query("SELECT deanFaculty FROM DeanFaculty deanFaculty WHERE deanFaculty.faculty.id = :facultyId")
+    List<DeanFaculty> findDeanFacultiesByFaculty_Id(@Param("facultyId")int facultyId);
 
 }

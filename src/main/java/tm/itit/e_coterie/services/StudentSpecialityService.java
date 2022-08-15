@@ -21,4 +21,6 @@ public interface StudentSpecialityService {
     boolean isStudentSpecialityExistsById(Integer studentSpecialityId);
 
     void removeStudentSpecialityById(Integer studentSpecialityId);
+
+    List<StudentSpecialityDTO>getStudentSpecialityDTOByFacultyId(int facultyId);
 }

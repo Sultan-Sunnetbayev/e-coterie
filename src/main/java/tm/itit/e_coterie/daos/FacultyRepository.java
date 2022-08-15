@@ -21,6 +21,6 @@ public interface FacultyRepository extends JpaRepository<Faculty, Integer> {
     Faculty findFacultyByShortName(@Param("shortName")String shortName);
 
     @Query("SELECT faculty FROM Faculty faculty WHERE faculty.id = :id")
-    Faculty findFacultyById(@Param("id")Integer id);
+    Faculty findFacultyById(@Param("id")int id);
 
 }

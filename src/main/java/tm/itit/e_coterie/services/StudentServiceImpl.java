@@ -159,4 +159,12 @@ public class StudentServiceImpl implements StudentService{
         return;
     }
 
+    @Override
+    public List<Student>getStudentsByStudentSpecialityId(final int studentSpecialityId){
+
+        List<Student>students=studentRepository.findStudentsByStudentSpeciality_Id(studentSpecialityId);
+
+        return students;
+    }
+
 }

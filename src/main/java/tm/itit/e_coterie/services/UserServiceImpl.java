@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tm.itit.e_coterie.daos.RoleRepository;
 import tm.itit.e_coterie.daos.UserRepository;
+import tm.itit.e_coterie.dtos.UserDTO;
 import tm.itit.e_coterie.helper.FileUploadUtil;
 import tm.itit.e_coterie.models.Role;
 import tm.itit.e_coterie.models.User;
@@ -162,7 +163,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean isUserExistsById(final Integer userId){
+    public boolean isUserExistsById(final int userId){
 
         if(userRepository.findUserById(userId)!=null){
 
@@ -175,7 +176,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void removeUserById(final Integer userId){
+    public void removeUserById(final int userId){
 
         User user=userRepository.findUserById(userId);
 

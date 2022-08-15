@@ -7,6 +7,7 @@ import tm.itit.e_coterie.models.StudentSpeciality;
 import tm.itit.e_coterie.models.User;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface StudentService {
 
@@ -18,4 +19,6 @@ public interface StudentService {
     boolean isStudentExistsById(Integer studentId);
 
     void removeStudentById(Integer studentId);
+
+    List<Student> getStudentsByStudentSpecialityId(int studentSpecialityId);
 }

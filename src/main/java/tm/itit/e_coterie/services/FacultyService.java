@@ -19,9 +19,10 @@ public interface FacultyService {
     List<FacultyDTO> getAllFacultyDTO();
 
     @Transactional
-    void removeFacultyById(Integer facultyId);
+    void removeFacultyById(int facultyId);
 
-    boolean isFacultyExistsById(Integer facultyId);
+    boolean isFacultyExistsById(int facultyId);
 
-    Faculty getFacultyById(Integer facultyId);
+    Faculty getFacultyById(int facultyId);
+
 }

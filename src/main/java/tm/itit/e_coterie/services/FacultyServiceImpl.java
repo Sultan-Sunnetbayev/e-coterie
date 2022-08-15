@@ -41,9 +41,9 @@ public class FacultyServiceImpl implements FacultyService{
         return;
     }
 
-    private boolean shortNameFacultyExists(String shortName) {
+    private boolean shortNameFacultyExists(final String shortName) {
 
-        Faculty check = facultyRepository.findFacultyByShortName(shortName);
+        final Faculty check = facultyRepository.findFacultyByShortName(shortName);
 
         if(check == null){
 
@@ -54,9 +54,9 @@ public class FacultyServiceImpl implements FacultyService{
         }
     }
 
-    private boolean fullNameFacultyExists(String fullName) {
+    private boolean fullNameFacultyExists(final String fullName) {
 
-        Faculty check=facultyRepository.findFacultyByFullName(fullName);
+        final Faculty check=facultyRepository.findFacultyByFullName(fullName);
 
         if(check == null){
 
@@ -136,7 +136,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     @Transactional
-    public void removeFacultyById(final Integer facultyId){
+    public void removeFacultyById(final int facultyId){
 
         if(facultyRepository.findFacultyById(facultyId)!=null){
 
@@ -147,7 +147,7 @@ public class FacultyServiceImpl implements FacultyService{
     }
 
     @Override
-    public boolean isFacultyExistsById(final Integer facultyId){
+    public boolean isFacultyExistsById(final int facultyId){
 
         if(facultyRepository.findFacultyById(facultyId)!=null){
 
@@ -159,9 +159,9 @@ public class FacultyServiceImpl implements FacultyService{
     }
 
     @Override
-    public Faculty getFacultyById(final Integer facultyId){
+    public Faculty getFacultyById(final int facultyId){
 
-        Faculty faculty=facultyRepository.findFacultyById(facultyId);
+        final Faculty faculty=facultyRepository.findFacultyById(facultyId);
 
         return faculty;
     }
