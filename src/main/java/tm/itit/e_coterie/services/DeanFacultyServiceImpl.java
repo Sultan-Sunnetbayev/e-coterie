@@ -10,6 +10,7 @@ import tm.itit.e_coterie.models.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DeanFacultyServiceImpl implements DeanFacultyService{
@@ -25,11 +26,7 @@ public class DeanFacultyServiceImpl implements DeanFacultyService{
     @Transactional
     public void addDeanFaculty(final User deanFaculty, final Faculty faculty){
 
-        if(deanFacultyRepository.
-                findDeanFacultyByUser_EmailAndUser_NameAndUser_SurnameAndFaculty_FullNameAndFaculty_ShortName(
-                        deanFaculty.getEmail(), deanFaculty.getName(), deanFaculty.getSurname(),
-                        faculty.getFullName(), faculty.getShortName()
-                )!=null){
+        if(deanFacultyRepository.findDeanFacultyByUser_IdAndFaculty_Id(deanFaculty.getId(), faculty.getId())!=null){
 
             return;
         }
@@ -43,7 +40,7 @@ public class DeanFacultyServiceImpl implements DeanFacultyService{
     }
 
     @Override
-    public boolean checkDeanFacultyByUserIdAndFacultyId(final Integer userId, final Integer facultyId){
+    public boolean checkDeanFacultyByUserIdAndFacultyId(final int userId, final int facultyId){
 
         if(deanFacultyRepository.findDeanFacultyByUser_IdAndFaculty_Id(userId, facultyId)!=null){
 
@@ -60,6 +57,29 @@ public class DeanFacultyServiceImpl implements DeanFacultyService{
         List<DeanFaculty>deanFaculties=deanFacultyRepository.findDeanFacultiesByFaculty_Id(facultyId);
 
         return deanFaculties;
+    }
+
+    @Override
+    public List<UserDTO>getAllDeanFacultyDTO(){
+
+        return deanFacultyRepository.findAll().stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    private UserDTO toDTO(DeanFaculty deanFaculty) {
+
+        UserDTO userDTO= UserDTO.builder()
+                .id(deanFaculty.getId())
+                .name(deanFaculty.getUser().getName())
+                .surname(deanFaculty.getUser().getSurname())
+                .patronymicName(deanFaculty.getUser().getPatronymicName())
+                .email(deanFaculty.getUser().getEmail())
+                .role(deanFaculty.getUser().getRole().getName())
+                .imagePath(deanFaculty.getUser().getImagePath())
+                .build();
+
+        return userDTO;
     }
 
 }

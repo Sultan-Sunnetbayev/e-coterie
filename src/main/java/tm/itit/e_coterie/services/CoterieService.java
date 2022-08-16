@@ -18,11 +18,11 @@ public interface CoterieService {
     void editCoterieById(Coterie coterie, MultipartFile image);
 
     @Transactional
-    void removeCoterieById(Integer coterieId);
+    void removeCoterieById(int coterieId);
 
     List<CoterieDTO> getAllCoterieDTO();
 
-    boolean isCoterieExistsById(Integer coterieId);
+    boolean isCoterieExistsById(int coterieId);
 
-    Coterie getCoterieById(Integer coterieId);
+    Coterie getCoterieById(int coterieId);
 }

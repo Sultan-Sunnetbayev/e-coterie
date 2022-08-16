@@ -21,8 +21,8 @@ public interface DeanFacultyRepository extends JpaRepository<DeanFaculty, Intege
 
     @Query("SELECT deanFaculty FROM DeanFaculty deanFaculty WHERE deanFaculty.user.id = :userId" +
             " AND deanFaculty.faculty.id = :facultyId")
-    DeanFaculty findDeanFacultyByUser_IdAndFaculty_Id(@Param("userId")Integer userId,
-                                                      @Param("facultyId")Integer facultyId);
+    DeanFaculty findDeanFacultyByUser_IdAndFaculty_Id(@Param("userId")int userId,
+                                                      @Param("facultyId")int facultyId);
 
     @Query("SELECT deanFaculty FROM DeanFaculty deanFaculty WHERE deanFaculty.faculty.id = :facultyId")
     List<DeanFaculty> findDeanFacultiesByFaculty_Id(@Param("facultyId")int facultyId);

@@ -48,9 +48,6 @@ public class User {
     private String imagePath;
     @Column(name = "status")
     private boolean status;
-    @Column(name = "gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
     @Column(name = "created")
     @CreationTimestamp
     private Date created;

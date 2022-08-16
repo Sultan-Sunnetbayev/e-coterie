@@ -14,13 +14,15 @@ public interface StudentSpecialityService {
 
     boolean isStudentSpecialityExists(StudentSpeciality studentSpeciality);
 
-    StudentSpeciality getStudentSpecialityById(Integer studentSpecialityId);
+    StudentSpeciality getStudentSpecialityById(int studentSpecialityId);
 
     List<StudentSpecialityDTO> getAllStudentSpecialityDTOS();
 
-    boolean isStudentSpecialityExistsById(Integer studentSpecialityId);
+    boolean isStudentSpecialityExistsById(int studentSpecialityId);
 
-    void removeStudentSpecialityById(Integer studentSpecialityId);
+    void removeStudentSpecialityById(int studentSpecialityId);
 
     List<StudentSpecialityDTO>getStudentSpecialityDTOByFacultyId(int facultyId);
+
+    void editStudentSpecialityById(StudentSpeciality studentSpeciality);
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import tm.itit.e_coterie.daos.StudentSpecialityRepository;
 import tm.itit.e_coterie.dtos.StudentSpecialityDTO;
 import tm.itit.e_coterie.models.Faculty;
+import tm.itit.e_coterie.models.Student;
 import tm.itit.e_coterie.models.StudentSpeciality;
 
 import javax.transaction.Transactional;
@@ -82,7 +83,7 @@ public class StudentSpecialityServiceImpl implements StudentSpecialityService {
     }
 
     @Override
-    public StudentSpeciality getStudentSpecialityById(final Integer studentSpecialityId){
+    public StudentSpeciality getStudentSpecialityById(final int studentSpecialityId){
 
         StudentSpeciality studentSpeciality=studentSpecialityRepository.findStudentSpecialityById(studentSpecialityId);
 
@@ -109,7 +110,7 @@ public class StudentSpecialityServiceImpl implements StudentSpecialityService {
     }
 
     @Override
-    public boolean isStudentSpecialityExistsById(final Integer studentSpecialityId){
+    public boolean isStudentSpecialityExistsById(final int studentSpecialityId){
 
         if(studentSpecialityRepository.findStudentSpecialityById(studentSpecialityId)!=null){
 
@@ -121,7 +122,7 @@ public class StudentSpecialityServiceImpl implements StudentSpecialityService {
     }
 
     @Override
-    public void removeStudentSpecialityById(final Integer studentSpecialityId){
+    public void removeStudentSpecialityById(final int studentSpecialityId){
 
         if(studentSpecialityRepository.findStudentSpecialityById(studentSpecialityId)!=null){
 
@@ -138,6 +139,38 @@ public class StudentSpecialityServiceImpl implements StudentSpecialityService {
                 .map(this::toDTO)
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public void editStudentSpecialityById(final StudentSpeciality studentSpeciality){
+
+        StudentSpeciality editedStudentSpeciality=studentSpecialityRepository.findStudentSpecialityById(studentSpeciality.getId());
+        if(studentSpeciality==null){
+
+            return;
+        }
+        StudentSpeciality checkStudentSpeciality=studentSpecialityRepository.findStudentSpecialityByShortName(studentSpeciality.getShortName());
+
+        if(checkStudentSpeciality!=null && checkStudentSpeciality.getId()!=editedStudentSpeciality.getId()){
+
+            return;
+        }
+        checkStudentSpeciality=studentSpecialityRepository.findStudentSpecialityByFullName(studentSpeciality.getFullName());
+        if(checkStudentSpeciality!=null && checkStudentSpeciality.getId()!=editedStudentSpeciality.getId()){
+
+            return;
+        }
+        if(studentSpeciality.getShortName()!=null && !studentSpeciality.getShortName().isEmpty()){
+
+            editedStudentSpeciality.setShortName(studentSpeciality.getShortName());
+        }
+        if(studentSpeciality.getFullName()!=null && !studentSpeciality.getFullName().isEmpty()){
+
+            editedStudentSpeciality.setFullName(studentSpeciality.getFullName());
+        }
+        studentSpecialityRepository.save(editedStudentSpeciality);
+
+        return;
     }
 
 }

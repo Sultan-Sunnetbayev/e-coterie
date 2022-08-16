@@ -12,19 +12,18 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
-//    List<Student> findStudentsByCoteries(List<Coterie>coteries);
-
     @Query("SELECT student FROM Student student WHERE student.user.id = :userId")
-    Student findStudentByUser_Id(@Param("userId")Integer userId);
+    Student findStudentByUser_Id(@Param("userId")int userId);
 
     @Query("SELECT student FROM Student student WHERE student.user.id = :userId AND " +
             "student.studentSpeciality.id = :studentSpecialityId")
-    Student findStudentsByUser_IdAndStudentSpeciality_Id(@Param("userId")Integer userId,
-                                                                   @Param("studentSpecialityId")Integer studentSpecialityId);
+    Student findStudentsByUser_IdAndStudentSpeciality_Id(@Param("userId")int userId,
+                                                                   @Param("studentSpecialityId")int studentSpecialityId);
 
     @Query("SELECT student FROM Student student WHERE student.id = :studentId")
-    Student findStudentById(@Param("studentId")Integer studentId);
+    Student findStudentById(@Param("studentId")int studentId);
 
     @Query("SELECT student FROM Student student WHERE student.studentSpeciality.id = :studentSpecialityId")
     List<Student>findStudentsByStudentSpeciality_Id(@Param("studentSpecialityId")int studentSpecialityId);
+
 }

@@ -79,26 +79,52 @@ public class StudentSpecialityController {
     }
 
     @DeleteMapping(path = "remove/by/id",produces = "application/json")
-    public ResponseEntity removeStudentSpecialityById(final @RequestParam("studentSpecialityId")Integer studentSpecialityId){
+    public ResponseEntity removeStudentSpecialityById(final @RequestParam("studentSpecialityId")Integer studentSpecialityId) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (!studentSpecialityService.isStudentSpecialityExistsById(studentSpecialityId)) {
+
+            response.put("status", false);
+            response.put("message", "error student speciality don't found with this id");
+
+            return ResponseEntity.ok(response);
+        }
+        studentSpecialityService.removeStudentSpecialityById(studentSpecialityId);
+        if (!studentSpecialityService.isStudentSpecialityExistsById(studentSpecialityId)) {
+
+            response.put("status", true);
+            response.put("message", "accept student speciality successful removed");
+        } else {
+
+            response.put("status", false);
+            response.put("message", "error student speciality don't removed");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping(path = "/edit/by/id", produces = "application/json")
+    public ResponseEntity editStudentSpecialityById(final @ModelAttribute StudentSpeciality studentSpeciality){
 
         Map<String,Object>response=new HashMap<>();
 
-        if(!studentSpecialityService.isStudentSpecialityExistsById(studentSpecialityId)){
+        if(!studentSpecialityService.isStudentSpecialityExistsById(studentSpeciality.getId())){
 
             response.put("status",false);
             response.put("message","error student speciality don't found with this id");
 
             return ResponseEntity.ok(response);
         }
-        studentSpecialityService.removeStudentSpecialityById(studentSpecialityId);
-        if(!studentSpecialityService.isStudentSpecialityExistsById(studentSpecialityId)){
+        studentSpecialityService.editStudentSpecialityById(studentSpeciality);
+        if(studentSpecialityService.isStudentSpecialityExists(studentSpeciality)){
 
             response.put("status",true);
-            response.put("message","accept student speciality successful removed");
+            response.put("message","accept student speciality successful edited");
         }else{
 
             response.put("status",false);
-            response.put("message","error student speciality don't removed");
+            response.put("message","error student don't edited");
         }
 
         return ResponseEntity.ok(response);

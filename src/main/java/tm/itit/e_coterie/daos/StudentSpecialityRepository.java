@@ -26,7 +26,7 @@ public interface StudentSpecialityRepository extends JpaRepository<StudentSpecia
 
     @Query("SELECT studentSpeciality FROM StudentSpeciality studentSpeciality WHERE " +
             "studentSpeciality.id = :id")
-    StudentSpeciality findStudentSpecialityById(@Param("id")Integer id);
+    StudentSpeciality findStudentSpecialityById(@Param("id")int id);
 
     @Query("SELECT studentSpeciality FROM StudentSpeciality studentSpeciality WHERE studentSpeciality.faculty.id " +
             "= :facultyId")

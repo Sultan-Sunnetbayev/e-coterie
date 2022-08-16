@@ -73,7 +73,7 @@ public class CoterieController {
     }
 
     @DeleteMapping(path = "/remove/by/id", produces = "application/json")
-    public ResponseEntity removeCoterieById(final @RequestParam("coterieId")Integer coterieId){
+    public ResponseEntity removeCoterieById(final @RequestParam("coterieId")int coterieId){
 
         Map<String,Object>response=new HashMap<>();
 
@@ -93,6 +93,33 @@ public class CoterieController {
 
             response.put("status",true);
             response.put("message","accept coterie successful removed");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping(path = "/edit/by/id", produces = "application/json")
+    public ResponseEntity editCoterieById(final @ModelAttribute Coterie coterie,
+                                          final @RequestParam(value = "image", required = false)MultipartFile image){
+
+        Map<String, Object>response=new HashMap<>();
+
+        if(!coterieService.isCoterieExistsById(coterie.getId())){
+
+            response.put("status",false);
+            response.put("message","error coterie not found with this id");
+
+            return ResponseEntity.ok(response);
+        }
+        coterieService.editCoterieById(coterie, image);
+        if(coterieService.isCoterieExists(coterie.getName())){
+
+            response.put("status",true);
+            response.put("message","accept coterie successful edited");
+        }else{
+
+            response.put("status",false);
+            response.put("message","error coterie don't edited");
         }
 
         return ResponseEntity.ok(response);

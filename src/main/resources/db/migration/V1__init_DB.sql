@@ -14,7 +14,6 @@ CREATE TABLE `users`(
     `password` VARCHAR(150) NOT NULL ,
     `image_path` VARCHAR(200) ,
     `status` BOOLEAN NOT NULL DEFAULT FALSE ,
-    `gender` VARCHAR(5) NOT NULL ,
     `role_id` INT ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
@@ -75,7 +74,6 @@ CREATE TABLE `student_specialities`(
 CREATE TABLE `teachers`(
     `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL ,
     `user_id` INT NOT NULL ,
-    `coterie_id` INT NOT NULL ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 
@@ -104,6 +102,7 @@ CREATE TABLE `students`(
     `user_id` INT NOT NULL ,
     `student_speciality_id` INT NOT NULL ,
     `hostel` BOOLEAN DEFAULT FALSE ,
+    `gender` VARCHAR(5) NOT NULL ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 

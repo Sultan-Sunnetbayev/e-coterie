@@ -13,6 +13,6 @@ public interface CoterieRepository extends JpaRepository<Coterie, Integer> {
     Coterie findCoterieByName(@Param("name")String name);
 
     @Query("SELECT coterie FROM Coterie coterie WHERE coterie.id = :coterieId")
-    Coterie findCoterieById(@Param("coterieId")Integer coterieId);
+    Coterie findCoterieById(@Param("coterieId")int coterieId);
 
 }

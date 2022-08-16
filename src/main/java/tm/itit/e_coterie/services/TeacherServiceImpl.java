@@ -52,21 +52,15 @@ public class TeacherServiceImpl implements TeacherService{
     @Override
     public boolean isTeacherExistsByUserIdAndCoterieId(final int userId, final int coterieId) {
 
-        Teacher teacher=teacherRepository.findTeacherByUser_Id(userId);
+        Teacher teacher=teacherRepository.findTeacherByUser_IdAndCoteries(userId,coterieId);
 
         if(teacher==null){
 
             return false;
+        }else{
+
+            return true;
         }
-        for(Coterie coterie:teacher.getCoteries()){
-
-            if(coterie.getId()==coterieId){
-
-                return true;
-            }
-        }
-
-        return false;
     }
 
     @Override
@@ -107,7 +101,6 @@ public class TeacherServiceImpl implements TeacherService{
                 .patronymicName(teacher.getUser().getPatronymicName())
                 .imagePath(teacher.getUser().getImagePath())
                 .email(teacher.getUser().getEmail())
-                .gender(teacher.getUser().getGender())
                 .role(teacher.getUser().getRole().getName())
                 .build();
 

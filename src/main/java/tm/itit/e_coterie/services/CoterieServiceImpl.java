@@ -37,7 +37,6 @@ public class CoterieServiceImpl implements CoterieService{
 
         Coterie savedCoterie=Coterie.builder()
                 .name(coterie.getName())
-//                .pulpit(pulpit)
                 .build();
         if(image!=null && !image.isEmpty()){
 
@@ -133,7 +132,7 @@ public class CoterieServiceImpl implements CoterieService{
 
     @Override
     @Transactional
-    public void removeCoterieById(final Integer coterieId){
+    public void removeCoterieById(final int coterieId){
 
         Coterie coterie=coterieRepository.findCoterieById(coterieId);
 
@@ -175,7 +174,7 @@ public class CoterieServiceImpl implements CoterieService{
     }
 
     @Override
-    public boolean isCoterieExistsById(final Integer coterieId){
+    public boolean isCoterieExistsById(final int coterieId){
 
         if(coterieRepository.findCoterieById(coterieId)!=null){
 
@@ -187,7 +186,7 @@ public class CoterieServiceImpl implements CoterieService{
     }
 
     @Override
-    public Coterie getCoterieById(final Integer coterieId){
+    public Coterie getCoterieById(final int coterieId){
 
         Coterie coterie=coterieRepository.findCoterieById(coterieId);
 

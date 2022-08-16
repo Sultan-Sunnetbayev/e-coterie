@@ -84,7 +84,6 @@ public class UserServiceImpl implements UserService{
                 .email(user.getEmail())
                 .password(passwordEncoder.encode(user.getPassword()))
                 .role(role)
-                .gender(user.getGender())
                 .build();
         userRepository.save(savedUser);
         if(image!=null && !image.isEmpty()){

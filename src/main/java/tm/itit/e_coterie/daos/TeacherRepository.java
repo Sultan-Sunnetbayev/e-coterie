@@ -20,4 +20,9 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
     @Query("SELECT teacher FROM Teacher teacher INNER JOIN teacher.coteries coteries ON coteries.id IN :coterieIds")
     List<Teacher> findTeachersByCoterieIds(@Param("coterieIds")List<Integer> coterieIds);
 
+    @Query("SELECT teacher FROM Teacher teacher INNER JOIN teacher.coteries coteries ON coteries.id = :coterieId " +
+            "WHERE teacher.user.id =  :userId")
+    Teacher findTeacherByUser_IdAndCoteries(@Param("userId")int userId,
+                                            @Param("coterieId")int coterieId);
+
 }
