@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tm.itit.e_coterie.models.Coterie;
+import tm.itit.e_coterie.models.Gender;
 import tm.itit.e_coterie.models.StudentSpeciality;
 import tm.itit.e_coterie.models.User;
 import tm.itit.e_coterie.services.*;
@@ -44,7 +45,8 @@ public class StudentController {
                                      final @RequestParam(value = "image",required = false)MultipartFile image,
                                      final @RequestParam("coterieId")Integer coterieId,
                                      final @RequestParam(value = "hostel",required = false)Boolean hostel,
-                                     final @RequestParam("studentSpecialityId")Integer studentSpecialityId){
+                                     final @RequestParam("studentSpecialityId")Integer studentSpecialityId,
+                                     final @RequestParam("gender") Gender gender){
 
         Map<String,Object> response=new HashMap<>();
 
@@ -66,7 +68,7 @@ public class StudentController {
 
             return ResponseEntity.ok(response);
         }
-        if(userService.isUserExists(user)) {
+        if(!userService.isUserExists(user)) {
 
             final String role = "ROLE_STUDENT";
 
@@ -80,16 +82,14 @@ public class StudentController {
             return ResponseEntity.ok(response);
         }
         User student=userService.getUserByEmail(user.getEmail());
-        if(!studentService.isStudentExists(student.getId(),studentSpecialityId,coterie.getId())) {
-
-            studentService.addStudent(student, coterie, studentSpeciality, hostel);
-        }else{
+        if(studentService.isStudentExists(student.getId(),studentSpecialityId, coterieId)){
 
             response.put("status",false);
-            response.put("message","error this student's mail already exists");
+            response.put("message","error student already exists this coterie");
 
             return ResponseEntity.ok(response);
         }
+        studentService.addStudent(student, coterie, studentSpeciality, hostel, gender);
         if(studentService.isStudentExists(student.getId(),studentSpecialityId,coterie.getId())){
 
             response.put("status",true);

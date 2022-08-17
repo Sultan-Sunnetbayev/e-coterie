@@ -30,7 +30,10 @@ public class Student {
     private StudentSpeciality studentSpeciality;
     @Column(name = "hostel")
     private Boolean hostel;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(name = "gender")
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinTable(
             name = "students_coteries",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),

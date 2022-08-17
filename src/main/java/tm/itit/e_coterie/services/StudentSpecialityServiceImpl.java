@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import tm.itit.e_coterie.daos.StudentSpecialityRepository;
 import tm.itit.e_coterie.dtos.StudentSpecialityDTO;
 import tm.itit.e_coterie.models.Faculty;
-import tm.itit.e_coterie.models.Student;
 import tm.itit.e_coterie.models.StudentSpeciality;
 
 import javax.transaction.Transactional;

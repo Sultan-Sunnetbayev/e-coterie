@@ -66,25 +66,25 @@ public class StudentServiceImpl implements StudentService{
     @Override
     @Transactional
     public void addStudent(final User user, final Coterie coterie, final StudentSpeciality studentSpeciality,
-                           final Boolean hostel){
+                           final Boolean hostel, final Gender gender){
 
         Student student=studentRepository.findStudentByUser_Id(user.getId());
         List<Coterie> coteries = null;
 
         if(student==null) {
 
+            System.out.println("yes");
             coteries=new ArrayList<>();
             coteries.add(coterie);
             student = Student.builder()
                     .user(user)
                     .studentSpeciality(studentSpeciality)
                     .coteries(coteries)
+                    .gender(gender)
+                    .hostel(hostel)
                     .build();
-            if(hostel!=null){
-
-                student.setHostel(hostel);
-            }
         }else{
+            System.out.println("no");
             coteries=student.getCoteries();
             if(coterie==null){
 

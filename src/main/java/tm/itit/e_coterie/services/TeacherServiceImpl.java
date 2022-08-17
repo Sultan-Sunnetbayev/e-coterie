@@ -76,16 +76,16 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
-    public List<UserDTO>getAllTeacherDTO(final List<Integer> coterieId){
+    public List<UserDTO>getAllTeacherDTO(final List<Integer> coterieIds){
 
-        if(coterieId==null) {
+        if(coterieIds==null) {
 
             return teacherRepository.findAll().stream()
                     .map(this::toDTO)
                     .collect(Collectors.toList());
         }else{
 
-            return teacherRepository.findTeachersByCoterieIds(coterieId).stream()
+            return teacherRepository.findTeachersByCoterieIds(coterieIds).stream()
                     .map(this::toDTO)
                     .collect(Collectors.toList());
         }

@@ -78,7 +78,7 @@ public class StudentSpecialityController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping(path = "remove/by/id",produces = "application/json")
+    @DeleteMapping(path = "/remove/by/id",produces = "application/json")
     public ResponseEntity removeStudentSpecialityById(final @RequestParam("studentSpecialityId")Integer studentSpecialityId) {
 
         Map<String, Object> response = new HashMap<>();

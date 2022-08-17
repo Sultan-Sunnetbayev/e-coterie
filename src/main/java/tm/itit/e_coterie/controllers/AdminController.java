@@ -8,6 +8,7 @@ import tm.itit.e_coterie.dtos.StudentSpecialityDTO;
 import tm.itit.e_coterie.models.*;
 import tm.itit.e_coterie.services.*;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,22 +126,40 @@ public class AdminController {
         if(facultyService.isFacultyExistsById(facultyId)){
 
             List<DeanFaculty>deanFaculties= deanFacultyService.getDeanFacultiesByFacultyId(facultyId);
-
-            for(DeanFaculty deanFaculty:deanFaculties){
-
-                userService.removeUserById(deanFaculty.getUser().getId());
-            }
             List<StudentSpecialityDTO>studentSpecialityDTOS=studentSpecialityService.getStudentSpecialityDTOByFacultyId(facultyId);
 
+            facultyService.removeFacultyById(facultyId);
+            for(DeanFaculty deanFaculty:deanFaculties){
+
+                if(!userService.isUserExistsById(deanFaculty.getUser().getId())){
+
+                    if(deanFaculty.getUser().getImagePath()!=null && !deanFaculty.getUser().getImagePath().isEmpty()){
+
+                        File image=new File(deanFaculty.getUser().getImagePath());
+
+                        if(image.exists()){
+
+                            image.delete();
+                        }
+                    }
+                }
+            }
             for(StudentSpecialityDTO studentSpecialityDTO : studentSpecialityDTOS){
 
                 List<Student>students=studentService.getStudentsByStudentSpecialityId(studentSpecialityDTO.getId());
 
                 students.forEach(student -> {
-                    userService.removeUserById(student.getUser().getId());
+                    if(student.getUser().getImagePath()!=null && !student.getUser().getImagePath().isEmpty()){
+
+                        File image =new File(student.getUser().getImagePath());
+
+                        if(image.exists()){
+
+                            image.delete();
+                        }
+                    }
                 });
             }
-            facultyService.removeFacultyById(facultyId);
         }else{
 
             response.put("status",false);
