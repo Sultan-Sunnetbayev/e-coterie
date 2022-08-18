@@ -43,14 +43,14 @@ public class TeacherController {
             teacherDTOS=new ArrayList<>();
         }
         response.put("status",true);
-        response.put("message",teacherDTOS);
+        response.put("teachers",teacherDTOS);
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping(path = "/add", produces = "application/json")
     public ResponseEntity addTeacher(final @ModelAttribute User user,
-                                     final @RequestParam("image")MultipartFile image,
+                                     final @RequestParam(value = "image", required = false)MultipartFile image,
                                      final @RequestParam("coterieId")int coterieId){
 
         Map<String,Object>response=new HashMap<>();
@@ -95,6 +95,33 @@ public class TeacherController {
 
             response.put("status",false);
             response.put("message","error teacher don't added");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(path = "/remove/by/id", produces = "application/json")
+    public ResponseEntity removeTeacherById(final @RequestParam("teacherId")Integer teacherId,
+                                            final @RequestParam("coterieId")Integer coterieId){
+
+        Map<String, Object>response=new HashMap<>();
+
+        if(!teacherService.isTeacherExistsByTeacherIdAndCoterieId(teacherId, coterieId)){
+
+            response.put("status",false);
+            response.put("message","error teacher not found in this coterie");
+
+            return ResponseEntity.ok(response);
+        }
+        teacherService.removeTeacherByTeacherIdAndCoterieId(teacherId, coterieId);
+        if(!teacherService.isTeacherExistsByTeacherIdAndCoterieId(teacherId, coterieId)){
+
+            response.put("status",true);
+            response.put("message","accept teacher succeful remove form the coterie");
+        }else{
+
+            response.put("status",false);
+            response.put("message","error teacher don't removed");
         }
 
         return ResponseEntity.ok(response);

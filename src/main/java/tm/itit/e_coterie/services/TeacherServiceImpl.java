@@ -9,6 +9,7 @@ import tm.itit.e_coterie.models.Teacher;
 import tm.itit.e_coterie.models.User;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,11 +66,37 @@ public class TeacherServiceImpl implements TeacherService{
 
     @Override
     @Transactional
-    public void removeTeacherById(final int teacherId){
+    public void removeTeacherByTeacherIdAndCoterieId(final int teacherId, final int coterieId){
 
-        if(teacherRepository.findTeacherById(teacherId)!=null){
+        Teacher teacher=teacherRepository.findTeacherByIdAndCoterieId(teacherId, coterieId);
+
+        if(teacher==null){
+
+            return;
+        }
+        for(int i=0; i<teacher.getCoteries().size();i++){
+
+            if(teacher.getCoteries().get(i).getId()==coterieId){
+
+                teacher.getCoteries().remove(i);break;
+            }
+        }
+        System.out.println(teacher.getCoteries().size());
+        if(teacher.getCoteries()==null || teacher.getCoteries().isEmpty()){
 
             teacherRepository.deleteById(teacherId);
+            if(teacherRepository.findTeacherById(teacherId)==null && teacher!=null){
+
+                File image=new File(teacher.getUser().getImagePath());
+
+                if(image.exists()){
+
+                    image.delete();
+                }
+            }
+        }else {
+
+            teacherRepository.save(teacher);
         }
 
         return;
@@ -105,6 +132,18 @@ public class TeacherServiceImpl implements TeacherService{
                 .build();
 
         return teacherDTO;
+    }
+
+    @Override
+    public boolean isTeacherExistsByTeacherIdAndCoterieId(final int teacherId, final int coterieId){
+
+        if(teacherRepository.findTeacherByIdAndCoterieId(teacherId, coterieId)!=null){
+
+            return true;
+        }else{
+
+            return false;
+        }
     }
 
 }

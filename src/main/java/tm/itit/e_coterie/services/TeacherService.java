@@ -15,7 +15,9 @@ public interface TeacherService {
     boolean isTeacherExistsByUserIdAndCoterieId(int userId, int coterieId);
 
     @Transactional
-    void removeTeacherById(int teacherId);
+    void removeTeacherByTeacherIdAndCoterieId(int teacherId, int coterieId);
 
     List<UserDTO> getAllTeacherDTO(List<Integer> coterieId);
+
+    boolean isTeacherExistsByTeacherIdAndCoterieId(int teacherId, int coterieId);
 }
