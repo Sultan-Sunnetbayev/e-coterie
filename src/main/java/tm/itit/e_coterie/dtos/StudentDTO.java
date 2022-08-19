@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tm.itit.e_coterie.models.Gender;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +19,7 @@ public class StudentDTO {
     private String email;
     private String role;
     private String imagePath;
+    private Gender gender;
 
     @Override
     public String toString() {
@@ -29,6 +31,7 @@ public class StudentDTO {
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 ", imagePath='" + imagePath + '\'' +
+                ", gender=" + gender +
                 '}';
     }
 }

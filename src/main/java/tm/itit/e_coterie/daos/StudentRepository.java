@@ -18,7 +18,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     @Query("SELECT student FROM Student student WHERE student.user.id = :userId AND " +
             "student.studentSpeciality.id = :studentSpecialityId")
     Student findStudentsByUser_IdAndStudentSpeciality_Id(@Param("userId")int userId,
-                                                                   @Param("studentSpecialityId")int studentSpecialityId);
+                                                         @Param("studentSpecialityId")int studentSpecialityId);
 
     @Query("SELECT student FROM Student student WHERE student.id = :studentId")
     Student findStudentById(@Param("studentId")int studentId);

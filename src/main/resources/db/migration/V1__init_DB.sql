@@ -16,7 +16,7 @@ CREATE TABLE `users`(
     `email` VARCHAR(75) NOT NULL UNIQUE ,
     `password` VARCHAR(150) NOT NULL ,
     `image_path` VARCHAR(200) ,
-    `status` BOOLEAN NOT NULL DEFAULT FALSE ,
+    `status` BOOLEAN DEFAULT FALSE ,
     `role_id` INT ,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
@@ -74,7 +74,7 @@ CREATE TABLE `student_specialities`(
     `id` INT AUTO_INCREMENT NOT NULL ,
     `full_name` VARCHAR(75) NOT NULL UNIQUE ,
     `short_name` VARCHAR(15) NOT NULL UNIQUE ,
-    `faculty_id` INT ,
+    `faculty_id` INT NOT NULL,
     `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 
@@ -83,7 +83,7 @@ CREATE TABLE `student_specialities`(
     CONSTRAINT `student_specialites_faculty_id_fk`
         FOREIGN KEY(`faculty_id`)
             REFERENCES `faculties`(`id`)
-                ON UPDATE CASCADE ON DELETE SET NULL
+                ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE `teachers`(
@@ -148,6 +148,25 @@ CREATE TABLE `students_coteries`(
             REFERENCES `students`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE ,
     CONSTRAINT `students_coteries_coterie_id_fk`
+        FOREIGN KEY(`coterie_id`)
+            REFERENCES `coteries`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE `governor_coteries`(
+    `id` INT NOT NULL ,
+    `user_id` INT NOT NULL ,
+    `coterie_id` INT NOT NULL ,
+    `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    `updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+
+    CONSTRAINT `governor_coteries_id_pk`
+        PRIMARY KEY(`id`) ,
+    CONSTRAINT `governor_coteries_user_id_fk`
+        FOREIGN KEY(`user_id`)
+            REFERENCES `users`(`id`)
+                ON UPDATE CASCADE ON DELETE CASCADE ,
+    CONSTRAINT `governor_coteries_coterie_id_fk`
         FOREIGN KEY(`coterie_id`)
             REFERENCES `coteries`(`id`)
                 ON UPDATE CASCADE ON DELETE CASCADE

@@ -14,7 +14,7 @@ public interface StudentSpecialityRepository extends JpaRepository<StudentSpecia
     @Query("SELECT studentSpeciality FROM StudentSpeciality studentSpeciality WHERE " +
             "studentSpeciality.fullName = :fullName AND studentSpeciality.shortName = :shortName")
     StudentSpeciality findStudentSpecialityByFullNameAndShortName(@Param("fullName")String fullName,
-                                                                    @Param("shortName")String shortName);
+                                                                  @Param("shortName")String shortName);
 
     @Query("SELECT studentSpeciality FROM StudentSpeciality studentSpeciality WHERE " +
             "studentSpeciality.fullName = :fullName")

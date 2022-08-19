@@ -22,16 +22,21 @@ public class AdminController {
     private final DeanFacultyService deanFacultyService;
     private final StudentService studentService;
     private final StudentSpecialityService studentSpecialityService;
+    private final CoterieService coterieService;
+    private final GovernorCoterieService governorCoterieService;
 
     @Autowired
     public AdminController(UserService userService, FacultyService facultyService,
                            DeanFacultyService deanFacultyService, StudentService studentService,
-                           StudentSpecialityService studentSpecialityService) {
+                           StudentSpecialityService studentSpecialityService, CoterieService coterieService,
+                           GovernorCoterieService governorCoterieService) {
         this.userService = userService;
         this.facultyService = facultyService;
         this.deanFacultyService = deanFacultyService;
         this.studentService = studentService;
         this.studentSpecialityService = studentSpecialityService;
+        this.coterieService = coterieService;
+        this.governorCoterieService = governorCoterieService;
     }
 
     @PostMapping(path = "/add/rector", produces = "application/json")
@@ -229,6 +234,7 @@ public class AdminController {
                 response.put("message","dean faculty successful added");
             }else{
 
+                userService.removeUserById(user.getId());
                 response.put("status",false);
                 response.put("message","error dean faculty don't added");
             }
@@ -268,4 +274,51 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping(path = "/add/governor/coterie", produces = "application/json")
+    public ResponseEntity addGovernorCoterie(final @ModelAttribute User governorCoterie,
+                                             final @RequestParam(value = "image",required = false)MultipartFile image,
+                                             final @RequestParam("coterieId")int coterieId){
+
+        Map<String, Object>response=new HashMap<>();
+
+        if(userService.isUserExists(governorCoterie)){
+
+            response.put("status",false);
+            response.put("message","error this user already exists");
+
+            return ResponseEntity.ok(response);
+        }
+        if(!coterieService.isCoterieExistsById(coterieId)){
+
+            response.put("status",false);
+            response.put("message","error coterie not found with this id");
+
+            return ResponseEntity.ok(response);
+        }
+        final String roleName="ROLE_GOVERNOR_COTERIE";
+
+        userService.addUser(governorCoterie, image, roleName);
+        if(userService.isUserExists(governorCoterie)){
+
+            User user=userService.getUserByEmail(governorCoterie.getEmail());
+            Coterie coterie=coterieService.getCoterieById(coterieId);
+
+            governorCoterieService.addGovernorCoterie(user, coterie);
+            if(governorCoterieService.isGovernorCoterieExistsByUserIdAndCoterieId(user.getId(), coterieId)){
+
+                response.put("status",true);
+                response.put("message","accept governor coterie successful added");
+            }else{
+
+                response.put("status",false);
+                response.put("message","error governor coterie don't added");
+            }
+        }else{
+
+            response.put("status",false);
+            response.put("message","error with user");
+        }
+
+        return ResponseEntity.ok(response);
+    }
 }

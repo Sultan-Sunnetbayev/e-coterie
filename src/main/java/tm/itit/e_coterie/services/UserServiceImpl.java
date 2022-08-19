@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService{
         if(image!=null && !image.isEmpty()){
 
             try {
-                String uuid= UUID.randomUUID().toString();
+                final String uuid= UUID.randomUUID().toString();
 
                 FileUploadUtil.save(imagePath, uuid+image.getOriginalFilename(), image);
                 savedUser.setImagePath(imagePath+"/"+uuid+image.getOriginalFilename());
@@ -117,9 +117,11 @@ public class UserServiceImpl implements UserService{
                 return;
             }
         }
+
+        return;
     }
 
-    private boolean isUserNameSurnamePatronymicNameExists(String name, String surname, String patronymicName) {
+    private boolean isUserNameSurnamePatronymicNameExists(final String name, final String surname, final String patronymicName) {
 
         if(userRepository.findUserByNameAndSurnameAndPatronymicName(name, surname, patronymicName)!=null){
 
