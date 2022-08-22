@@ -21,4 +21,6 @@ public interface UserService {
     @Transactional
     void removeUserById(int userId);
 
+    @Transactional
+    void editUserById(int userId, UserDTO userDTO, MultipartFile image);
 }

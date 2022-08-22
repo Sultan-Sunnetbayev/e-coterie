@@ -70,7 +70,7 @@ public class DeanFacultyServiceImpl implements DeanFacultyService{
     private UserDTO toDTO(DeanFaculty deanFaculty) {
 
         UserDTO userDTO= UserDTO.builder()
-                .id(deanFaculty.getId())
+                .id(deanFaculty.getUser().getId())
                 .name(deanFaculty.getUser().getName())
                 .surname(deanFaculty.getUser().getSurname())
                 .patronymicName(deanFaculty.getUser().getPatronymicName())

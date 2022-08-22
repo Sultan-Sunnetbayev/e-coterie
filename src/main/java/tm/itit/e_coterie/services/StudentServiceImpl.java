@@ -73,7 +73,6 @@ public class StudentServiceImpl implements StudentService{
 
         if(student==null) {
 
-            System.out.println("yes");
             coteries=new ArrayList<>();
             coteries.add(coterie);
             student = Student.builder()
@@ -84,7 +83,6 @@ public class StudentServiceImpl implements StudentService{
                     .hostel(hostel)
                     .build();
         }else{
-            System.out.println("no");
             coteries=student.getCoteries();
             if(coterie==null){
 

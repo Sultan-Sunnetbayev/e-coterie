@@ -40,15 +40,15 @@ public class GovernorCoterieServiceImpl implements GovernorCoterieService{
     }
 
     @Override
-    public List<UserDTO> getAllGovernorCotetrieDTOS(List<Integer> governorCoterieIds){
+    public List<UserDTO> getAllGovernorCotetrieDTOS(List<Integer> coterieIds){
 
-        if(governorCoterieIds==null || governorCoterieIds.isEmpty()) {
+        if(coterieIds==null || coterieIds.isEmpty()) {
             return governorCoterieRepository.findAll().stream()
                     .map(this::toDTO)
                     .collect(Collectors.toList());
         }else{
 
-            return governorCoterieRepository.findGovernorCoteriesByCoterie_Id(governorCoterieIds).stream()
+            return governorCoterieRepository.findGovernorCoteriesByCoterie_Id(coterieIds).stream()
                     .map(this::toDTO)
                     .collect(Collectors.toList());
         }

@@ -81,7 +81,6 @@ public class TeacherServiceImpl implements TeacherService{
                 teacher.getCoteries().remove(i);break;
             }
         }
-        System.out.println(teacher.getCoteries().size());
         if(teacher.getCoteries()==null || teacher.getCoteries().isEmpty()){
 
             teacherRepository.deleteById(teacherId);
@@ -105,7 +104,7 @@ public class TeacherServiceImpl implements TeacherService{
     @Override
     public List<UserDTO>getAllTeacherDTO(final List<Integer> coterieIds){
 
-        if(coterieIds==null) {
+        if(coterieIds==null || coterieIds.isEmpty()) {
 
             return teacherRepository.findAll().stream()
                     .map(this::toDTO)

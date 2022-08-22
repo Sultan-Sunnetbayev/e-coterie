@@ -16,6 +16,6 @@ public interface GovernorCoterieRepository extends JpaRepository<GovernorCoterie
     GovernorCoterie findGovernorCoterieByUser_IdAndCoterie_Id(@Param("userId")int userId,
                                                               @Param("coterieId")int coterieId);
 
-    @Query("SELECT governorCoterie FROM GovernorCoterie governorCoterie WHERE governorCoterie.coterie.id IN :governorCoterieIds")
-    List<GovernorCoterie>findGovernorCoteriesByCoterie_Id(@Param("governorCoterieIds")List<Integer>governorCoterieIds);
+    @Query("SELECT governorCoterie FROM GovernorCoterie governorCoterie WHERE governorCoterie.coterie.id IN :coterieIds")
+    List<GovernorCoterie>findGovernorCoteriesByCoterie_Id(@Param("coterieIds")List<Integer>coterieIds);
 }

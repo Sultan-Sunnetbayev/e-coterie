@@ -19,6 +19,7 @@ public class UserDTO {
     private String surname;
     private String patronymicName;
     private String email;
+    private String password;
     private String imagePath;
     private String role;
 
@@ -30,6 +31,7 @@ public class UserDTO {
                 ", surname='" + surname + '\'' +
                 ", patronymicName='" + patronymicName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", imagePath='" + imagePath + '\'' +
                 ", role='" + role + '\'' +
                 '}';

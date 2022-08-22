@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
     private final RoleRepository roleRepository;
 
     @Value("${user.image.path}")
-    private String imagePath;
+    private String imagePathUser;
     @Value("${default.image.name}")
     private String defaultNameImageUser;
 
@@ -91,8 +91,8 @@ public class UserServiceImpl implements UserService{
             try {
                 final String uuid= UUID.randomUUID().toString();
 
-                FileUploadUtil.save(imagePath, uuid+image.getOriginalFilename(), image);
-                savedUser.setImagePath(imagePath+"/"+uuid+image.getOriginalFilename());
+                FileUploadUtil.save(imagePathUser, uuid+image.getOriginalFilename(), image);
+                savedUser.setImagePath(imagePathUser+"/"+uuid+image.getOriginalFilename());
                 userRepository.save(savedUser);
 
             } catch (IOException exception) {
@@ -106,8 +106,8 @@ public class UserServiceImpl implements UserService{
             try {
 
                 final String uuid=UUID.randomUUID().toString();
-                FileUploadUtil.saveDefaultImage(imagePath,defaultNameImageUser,uuid);
-                savedUser.setImagePath(imagePath+"/"+uuid+"_"+defaultNameImageUser);
+                FileUploadUtil.saveDefaultImage(imagePathUser,defaultNameImageUser,uuid);
+                savedUser.setImagePath(imagePathUser+"/"+uuid+"_"+defaultNameImageUser);
                 userRepository.save(savedUser);
 
             } catch (IOException exception) {
@@ -194,6 +194,73 @@ public class UserServiceImpl implements UserService{
             }
             userRepository.deleteById(userId);
         }
+
+        return;
+    }
+
+    @Override
+    @Transactional
+    public void editUserById(final int userId, final UserDTO userDTO, final MultipartFile image){
+
+        if(userDTO==null){
+
+            return;
+        }
+        User editedUser=userRepository.findUserById(userId);
+
+        if (editedUser == null) {
+
+            return;
+        }
+        if(userDTO.getEmail()!=null && !userDTO.getEmail().isEmpty()) {
+
+            User check = userRepository.findUserByEmail(userDTO.getEmail());
+            if (check != null && check.getId() != editedUser.getId()) {
+
+                return;
+            }
+        }
+        if(userDTO.getName()!=null && !userDTO.getName().isEmpty()){
+
+            editedUser.setName(userDTO.getName());
+        }
+        if(userDTO.getSurname()!=null && !userDTO.getSurname().isEmpty()){
+
+            editedUser.setSurname(userDTO.getSurname());
+        }
+        if(userDTO.getPatronymicName()!=null && !userDTO.getPatronymicName().isEmpty()){
+
+            editedUser.setPatronymicName(userDTO.getPatronymicName());
+        }
+        if(userDTO.getEmail()!=null && !userDTO.getEmail().isEmpty()){
+
+            editedUser.setEmail(userDTO.getEmail());
+        }
+        if(userDTO.getPassword()!=null && !userDTO.getPassword().isEmpty()){
+
+            editedUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+        if(image!=null && !image.isEmpty()){
+
+            String fileName=UUID.randomUUID().toString()+"_"+image.getOriginalFilename();
+
+            try {
+
+                FileUploadUtil.save(imagePathUser, fileName, image);
+                File file=new File(editedUser.getImagePath());
+
+                if(file.exists()){
+
+                    file.delete();
+                }
+                editedUser.setImagePath(imagePathUser+"/"+fileName);
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+        }
+        userRepository.save(editedUser);
 
         return;
     }
